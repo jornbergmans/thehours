@@ -1,6 +1,6 @@
 # THE HOURS
 
-This is an ongoing 'rice' project, aimed at making a theme for my LXDE / Openbox installation for home / personal use.
+The Hours is an ongoing 'rice' project, aimed at making a theme for my LXDE / Openbox installation for home / personal use.
 
 The Hours aims to create multiple color schemes, depending on the time of day at which the PC was switched on, and apply these color schemes to Openbox windows, LXTerminal and conky or other bar applications based on the colors in any wallpaper(s) that are used.
 
@@ -17,7 +17,7 @@ Actions are defined by whole numbers, to-do items will be defined by subs of tho
       * Adding an autorun script to set the correct scheme at startup
 
 2.    The Hours should read (pre-defined?) folders containing wallpaper images for each Time of Day schemes.
-  2.   The Hours will should all the image files in these folders, and generate a list of the most common colors used in the images.
+  2.   The Hours will screen all the image files in these folders, and generate a list of the most common colors used in the images.
   2.   The Hours will write these colorcodes to a script that replaces the appropriate lines in lxterminal.conf and rc.xml for each scheme when requested, either at startup or by the user's command.
 
 3.    Upon starting, The Hours should set a wallpaper and color scheme to match the current time of day.
@@ -35,7 +35,7 @@ Actions are defined by whole numbers, to-do items will be defined by subs of tho
         * The Window colors (Openbox) : 'thehours -set wm dawn'
         * The Terminal colors (LXTerminal) : 'thehours -set term dark'
         * The clock, bars and panels (conky/tint2) : 'thehours -set bars day'
-    4. When a whole new scheme is required (for example, when all the wallpaper images have been changed), thehours should have a reset function to re-create a new list of most common colors used in the wallpapers, i.e. 'thehours -reset'. This will run through all the steps in 2. and will result in setting the new color scheme for all parts of the theme.
+  4. When a whole new scheme is required (for example, when all the wallpaper images have been changed), thehours should have a reset function to re-create a new list of most common colors used in the wallpapers, i.e. 'thehours -reset'. This will run through all the steps in 2. and will result in setting the new color scheme for all parts of the theme.
 
 ## Installation and usage
 

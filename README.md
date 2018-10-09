@@ -5,7 +5,6 @@ The Hours is an ongoing 'rice' project, aimed at making a theme for my LXDE / Op
 The Hours aims to create multiple color schemes, depending on the time of day at which the PC was switched on, and apply these color schemes to Openbox windows, LXTerminal and conky or other bar applications based on the colors in any wallpaper(s) that are used.
 
 Specified below is a layout for the actions the script(s) should take to generate the color schemes, and output the config files needed for the applications to use these colors. This layout will also serve as a 'to do list' and basic skeleton for the scripts that need to be written while the project is in process.
-Actions are defined by whole numbers, to-do items will be defined by subs of those numbers.
 
 ## The List  
 

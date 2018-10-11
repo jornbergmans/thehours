@@ -3,33 +3,35 @@
 import os
 import sys
 from PIL import Image
-#
 
-imageFolder = sys.argv[1]
+_imgLocation = sys.argv[1]
+_imgFolder = os.path.split(_imgLocation)[0]
+
+_img = Image.open(_imgLocation)
+_imgConverted = _img.convert('RGB')
 
 def rgb_to_hex(r, g, b):
     return '#%02x%02x%02x' % (r, g, b)
 
-_theImageLocation = '/Users/vtr/Downloads/wallpapers/inputfiles/dawn/palettes/highlands_castle_by_kvacm-dbzuyr8-palette.png'
-_theImage = Image.open(_theImageLocation)
-
-pixels = _theImage.convert('RGB')
-width, height = _theImage.size
+width, height = _img.size
 outlog = os.path.join(
-    imageFolder,
+    _imgFolder,
     "{}.{}".format(
-        os.path.splitext(_theImageLocation)[0],
+        os.path.splitext(_imgLocation)[0],
         'txt'
     ))
 
-outlist = []
+hexdict = {}
 
-for x in range(width):
-	for y in range(height):
-		r, g, b = pixels.getpixel((x, y))
-		print(rgb_to_hex(r, g, b))
-#		logfile = open(outlog, 'a')
-#		logfile.write(rgb_to_hex(r, g, b))
-#		logfile.write(' ')
-		outlist.append(rgb_to_hex(r, g, b))
-print(outlist)
+if __name__ == "__main__":
+
+	for x in range(width):
+		for y in range(height):
+			r, g, b = _imgConverted.getpixel((x, y))
+			hexvalue = (rgb_to_hex(r, g, b))
+			if hexvalue not in hexdict:
+				hexdict[hexvalue] = int(0)
+			hexdict[hexvalue] += 1
+	hexlist = sorted(hexdict, key=hexdict.get, reverse=True)
+	print(hexlist[:16])
+#	print(hexdict)

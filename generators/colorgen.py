@@ -27,12 +27,11 @@ _imgFolder = os.path.split(_imgLocation)[0]
 _img = Image.open(_imgLocation).convert('RGB')
 width, height = _img.size
 
+
+#if __name__ == "__main__":
+
 hexdict = {}
-
-if __name__ == "__main__":
-
-    populate_dictionary(hexdict)
-    hexlist = sorted(hexdict, key=hexdict.get, reverse=True)
-    print(hexdict)
-    print(hexlist[:16])
-
+populate_dictionary(hexdict)
+hexlist = sorted(hexdict, key=hexdict.get, reverse=True)
+#    print(hexdict)
+print(hexlist[:16])

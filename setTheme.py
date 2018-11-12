@@ -4,9 +4,9 @@
 import subprocess as sp
 import sys
 sys.path.insert(0, './generators/')
-from hourcheck import _bgHour
+from hourcheck import bgHour
 
-_bgHourDir = ''
+theHourTheme = ''
 
 feh_header = [
     '/usr/bin/env feh',
@@ -18,12 +18,10 @@ feh_header = [
 
 if __name__ == "__main__":
 
-    _bgHourDir = _bgHour(_bgHourDir)
-
-    print(_bgHourDir)
+    theHourTheme = bgHour(theHourTheme)
 
     feh_cmd = []
     feh_cmd.extend(feh_header)
-    feh_cmd.append('~/.themes/theHours/wallpapers/' + _bgHourDir + '/*')
+    feh_cmd.append('~/.themes/theHours/backgrounds/' + theHourTheme + '/*')
 
     print(feh_cmd)

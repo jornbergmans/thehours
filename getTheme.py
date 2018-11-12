@@ -16,3 +16,5 @@ if __name__ == "__main__":
     colorgen.populate_dictionary(hexdict, img)
     hexlist = sorted(hexdict, key=hexdict.get, reverse=True)
     print(hexlist[:16])
+
+    Image.colorgen.colorsort().save('sorted.jpg')

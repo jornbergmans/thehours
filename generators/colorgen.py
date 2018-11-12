@@ -14,10 +14,18 @@ def rgb_to_hex(r, g, b):
 def populate_dictionary(hexdict, img):
     """Read the image and populate the dictionary with unique hexvalues."""
     width, height = img.size
+    colors = []
     for x in range(width):
         for y in range(height):
             r, g, b = img.getpixel((x, y))
+            colors.append([r, g, b])
             hexvalue = (rgb_to_hex(r, g, b))
             if hexvalue not in hexdict:
                 hexdict[hexvalue] = int(0)
             hexdict[hexvalue] += 1
+
+
+def colorsort():
+    """Sort colorvalues by HSL."""
+    colors.sort(key=lambda rgb: colorsys.rgb_to_hsv(*rgb) )
+

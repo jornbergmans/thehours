@@ -5,25 +5,23 @@ import subprocess as sp
 import re
 import os
 import sys
-import colorsys
 from PIL import Image
 import datetime
 
-theHour = int(datetime.datetime.now().strftime('%H'))
+now = int(datetime.datetime.now().strftime('%H'))
 theHourTheme = ''
 home = os.path.expanduser('~')
-hexdict = {}
 
 # Setting the first part - what time is it? 
 def bgHour(bgHourDir):
     """Return the name of the theme we are setting based on the current time.."""
-    if 0 <= theHour <= 6:
+    if 0 <= now <= 6:
         theHourTheme = 'dark'
-    elif 6 <= theHour <= 12:
+    elif 6 <= now <= 12:
         theHourTheme = 'dawn'
-    elif 12 <= theHour <= 18:
+    elif 12 <= now <= 18:
         theHourTheme = 'day'
-    elif 18 <= theHour <= 23:
+    elif 18 <= now <= 23:
         theHourTheme = 'dusk'
     return theHourTheme
 
@@ -68,37 +66,33 @@ def colorList(img):
         for y in range(height):
             r, g, b = img.getpixel((x, y))
             rgbcolors.append([r, g, b])
-        return rgbcolors
-
-def hslSort(rgbcolors):
-    """Sort colorvalues by HSL."""
-    hslcolors = rgbcolors.sort(key=lambda rgb: colorsys.rgb_to_hsv(*rgb))
-    return hslcolors
+    return rgbcolors
 
 
 def rgbToHex(r, g, b):
     """Convert rgb output values to hex values."""
     return '#%02x%02x%02x' % (r, g, b)
 
-
+hexdict = {}
 def makeHexDict(rgbcolor):
-    """Read the image and populate the dictionary with unique hexvalues."""
+    """Read the image and populate the dictionary with hexvalues and their brightness."""
     hexvalue = rgbToHex(rgbcolor[0], rgbcolor[1], rgbcolor[2])
+    intvalue = int(rgbcolor[0] + rgbcolor[1] + rgbcolor[2])
     if hexvalue not in hexdict:
-       hexdict[hexvalue] = int(0)
-    hexdict[hexvalue] += 1
+        hexdict[hexvalue] = intvalue
+#    hexdict[hexvalue] += 1
     return hexdict
-# End creating the color dictionary 
 
 
-# Pave the way to change the conkyrc color values
+# Grab the currently used conkyrc color values
 def conkyDefault():
     """Read the conky conf for this Hour and set the background color."""
     with open(currentThemeConf + '/conky/datetime.conf', 'r') as conkyrc:
         for line in conkyrc:
             if 'default_color' in line:
                 conkyDefaultColor = line.rstrip('\n')
-                return(conkyDefaultColor)
+                return conkyDefaultColor
+
 
 def conkyWindow():
     """Read the conky conf for this Hour and set the background color."""
@@ -106,5 +100,5 @@ def conkyWindow():
         for line in conkyrc:
             if 'own_window_colour' in line:
                 conkyWindowColor = line.rstrip('\n')
-                return(conkyWindowColor)
+                return conkyWindowColor
 # End returning the conky color values

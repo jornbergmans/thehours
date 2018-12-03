@@ -2,51 +2,36 @@
 """Read through an image and return the 16 most dominant color values."""
 
 import subprocess as sp
-import re
 import os
 import sys
+import re
 from PIL import Image
 import datetime
 
 now = int(datetime.datetime.now().strftime('%H'))
-theHourTheme = ''
 home = os.path.expanduser('~')
 
 # Setting the first part - what time is it? 
-def bgHour(bgHourDir):
+def bgHour():
     """Return the name of the theme we are setting based on the current time.."""
     if 0 <= now <= 6:
-        theHourTheme = 'dark'
+        theHour = 'dark'
     elif 6 <= now <= 12:
-        theHourTheme = 'dawn'
+        theHour = 'dawn'
     elif 12 <= now <= 18:
-        theHourTheme = 'day'
+        theHour = 'day'
     elif 18 <= now <= 23:
-        theHourTheme = 'dusk'
-    return theHourTheme
+        theHour = 'dusk'
+    return theHour
 
 ### This means that our theme will be set to the current hour, like so
-currentTheme = bgHour(theHourTheme)
-currentThemeBG = str(home + '/.themes/thehours/backgrounds/' + bgHour(theHourTheme))
-currentThemeConf = str(home + '/.themes/thehours/configs/' + bgHour(theHourTheme))
+currentTheme = bgHour()
+currentThemeBG = str(home + '/.themes/thehours/backgrounds/' + currentTheme)
+currentThemeConf = str(home + '/.themes/thehours/configs/' + currentTheme)
 # End setting the theme
 
 
-# All of the feh functions for selecting the backgrond we will use for the rest.
-def fehfunct():
-    """Build up the string to execute feh."""
-    feh_header = [
-        '/usr/bin/env feh',
-        '--randomize',
-        '--bg-scale',
-        '--quiet', '--no-menus',
-        ]
-    fehcmd = []
-    fehcmd.extend(feh_header)
-    fehcmd.append(currentThemeBG + '/*')
-    return(fehcmd)
-
-
+# The function that reads what picture we'll be using for the theme
 def currentBg():
     """Read the newly written fehbg to get the file selected as bg."""
     with open(currentThemeBG + '/.fehbg', 'r') as fehbg:
@@ -54,7 +39,6 @@ def currentBg():
             if home in line:
                 bgLoc = line.replace("'", "")
                 return(bgLoc)
-# End of setting feh scripts
 
 
 # Start reading the background image to get our output colors
@@ -73,6 +57,7 @@ def rgbToHex(r, g, b):
     """Convert rgb output values to hex values."""
     return '#%02x%02x%02x' % (r, g, b)
 
+
 hexdict = {}
 def makeHexDict(rgbcolor):
     """Read the image and populate the dictionary with hexvalues and their brightness."""
@@ -84,21 +69,11 @@ def makeHexDict(rgbcolor):
     return hexdict
 
 
-# Grab the currently used conkyrc color values
-def conkyDefault():
-    """Read the conky conf for this Hour and set the background color."""
-    with open(currentThemeConf + '/conky/datetime.conf', 'r') as conkyrc:
-        for line in conkyrc:
-            if 'default_color' in line:
-                conkyDefaultColor = line.rstrip('\n')
-                return conkyDefaultColor
+def makeHexList(hexdict):
+    """Read through the hex dict, sort it by luminance, and give the colors for our scheme."""
+    fullhexlist = sorted(hexdict, key=hexdict.get, reverse=False)
+    nth = int(len(fullhexlist) / 16)
+    hexlist = fullhexlist[0::nth]
+    return hexlist
 
-
-def conkyWindow():
-    """Read the conky conf for this Hour and set the background color."""
-    with open(currentThemeConf + '/conky/datetime.conf', 'r') as conkyrc:
-        for line in conkyrc:
-            if 'own_window_colour' in line:
-                conkyWindowColor = line.rstrip('\n')
-                return conkyWindowColor
-# End returning the conky color values
+# End grabbing all the colors that we need for our theme

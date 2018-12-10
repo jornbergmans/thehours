@@ -34,11 +34,29 @@ currentThemeConf = str(home + '/.themes/thehours/configs/' + currentTheme)
 # The function that reads what picture we'll be using for the theme
 def currentBg():
     """Read the newly written fehbg to get the file selected as bg."""
-    with open(currentThemeBG + '/.fehbg', 'r') as fehbg:
-        for line in fehbg.read().split():
-            if home in line:
-                bgLoc = line.replace("'", "")
-                return(bgLoc)
+#    with open(currentThemeBG + '/.fehbg', 'r') as fehbg:
+#        for line in fehbg.read().split():
+#            if home in line:
+#                bgLoc = line.replace("'", "")
+#                bgLoc = currentThemeBG + '/' + bgLoc
+    feh_header = [
+        '/usr/bin/env feh',
+        '--randomize',
+        ]
+    feh_opts = [
+        '-L', '%F',
+        ]
+    feh_pipe_head = [
+        '|', 'head',
+        '-n', '1',
+        ]
+    feh_bgcmd = []
+    feh_bgcmd.extend(feh_header)
+    feh_bgcmd.append(currentThemeBG)
+    feh_bgcmd.append(feh_opts)
+    feh_bgcmd.append(feh_pipe_head)
+    bgLoc = sp.run(feh_bgcmd)
+    return(bgLoc)
 
 
 # Start reading the background image to get our output colors

@@ -10,13 +10,12 @@ Specified below is a layout for the actions the script(s) should take to generat
 
 1.    The Hours will create all the folders and files needed for the scripts to work. This should be:
       - A wallpaper folder for each color scheme
-      - A .themes folder containing the config files
-      - A rc.xml for Openbox in the .config folder
+      - A .themes folder containing the default config files for gtk-2.0, gtk-3.0 and openbox
       - A lxterminal.conf setting for each color scheme
       - Adding an autorun script to set the correct scheme at startup
 
 2.    The Hours should read (pre-defined?) folders containing wallpaper images for each Time of Day schemes.
-  -   The Hours will screen all the image files in these folders, and generate a list of the most common colors used in the images.
+  -   The Hours will screen the image file(s) in these folders, and generate a list of the most common colors used in the images.
   -   The Hours will write these colorcodes to a script that replaces the appropriate lines in lxterminal.conf and rc.xml for each scheme when requested, either at startup or by the user's command.
 
 3.    Upon starting, The Hours should set a wallpaper and color scheme to match the current time of day.

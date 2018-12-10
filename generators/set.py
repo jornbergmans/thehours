@@ -9,19 +9,20 @@ from generators import get
 
 ### This means that our theme will be set to the current hour, like so
 currentTheme = get.bgHour()
+bgLoc = get.currentBg()
 # End setting the theme
 # The feh function for setting the backgrond we will use for the rest.
 def fehfunct():
     """Build up the string to execute feh."""
     feh_header = [
         '/usr/bin/env feh',
-        '--randomize',
         '--bg-scale',
         '--quiet', '--no-menus',
+        '--no-fehbg',
         ]
     fehcmd = []
     fehcmd.extend(feh_header)
-    fehcmd.append(get.currentThemeBG + '/*')
+    fehcmd.append(bgLoc)
     return(fehcmd)
 # End of feh
 

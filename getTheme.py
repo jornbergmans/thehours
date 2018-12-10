@@ -10,12 +10,13 @@ from PIL import Image
 
 if __name__ == "__main__":
 
+    bgLoc = get.currentBg()
+    print('FEH WILL GET IMAGE LOCATION FROM ' + str(bgLoc))
     fehcmd = set.fehfunct()
 #    sp.run(fehcmd)
     print('FEH WILL RUN AS: ' + str(fehcmd))
     print('FEHBG WILL BE MOVED TO: ' + "os.rename(get.home + '/.fehbg', get.currentThemeBG + '/.fehbg')")
 
-    bgLoc = get.currentBg()
 #    imgFolder = os.path.split(bgLoc)[0]
     img = Image.open(bgLoc).convert('RGB')
 

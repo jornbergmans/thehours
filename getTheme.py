@@ -1,33 +1,29 @@
 #!/usr/bin/env python3
 """Get the settings from time of day to set the right theme."""
 
+import subprocess as sp
 from generators import get
 from generators import set
-import sys
-import os
-import re
 from PIL import Image
 
 if __name__ == "__main__":
 
-    bgLoc = get.currentBg()
-    print('FEH WILL GET IMAGE LOCATION FROM ' + str(bgLoc))
-    fehcmd = set.fehfunct()
-#    sp.run(fehcmd)
-    print('FEH WILL RUN AS: ' + str(fehcmd))
-    print('FEHBG WILL BE MOVED TO: ' + "os.rename(get.home + '/.fehbg', get.currentThemeBG + '/.fehbg')")
-
+    bgLoc = get.getBg()
 #    imgFolder = os.path.split(bgLoc)[0]
-    img = Image.open(bgLoc).convert('RGB')
+    img1 = Image.open(bgLoc[1]).convert('RGB')
+    img2 = Image.open(bgLoc[2]).convert('RGB')
 
-    rgbcolors = get.colorList(img)
+    rgbcolors = get.colorList(img1)
+    rgbcolors = get.colorList(img2)
 
     for rgbcolor in rgbcolors:
         hexdict = get.makeHexDict(rgbcolor)
     hexlist = get.makeHexList(hexdict)
-    print(hexlist)
+    # print(hexlist)
 
     set.conkyDefault(hexlist)
+    setBg = sp.run(set.fehBg(bgLoc))
+
 
 #    reghex = re.compile('\#[a-z0-9]*')
 #    conkyDefaultColor = generator.conkyDefault()

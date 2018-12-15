@@ -3,17 +3,17 @@
 
 import subprocess as sp
 import os
-import sys
-import re
-from PIL import Image
 import datetime
+import sys
 
 now = int(datetime.datetime.now().strftime('%H'))
 home = os.path.expanduser('~')
 
-# Setting the first part - what time is it? 
+# Setting the first part - what time is it?
+
+
 def bgHour():
-    """Return the name of the theme we are setting based on the current time.."""
+    """Return the name of the theme we are setting based on the current time."""
     if 0 <= now <= 6:
         theHour = 'dark'
     elif 6 <= now <= 12:
@@ -24,7 +24,9 @@ def bgHour():
         theHour = 'dusk'
     return theHour
 
-### This means that our theme will be set to the current hour, like so
+# This means that our theme will be set to the current hour, like so
+
+
 currentTheme = bgHour()
 currentThemeBG = str(home + '/.themes/thehours/backgrounds/' + currentTheme)
 currentThemeConf = str(home + '/.themes/thehours/configs/' + currentTheme)
@@ -32,36 +34,24 @@ currentThemeConf = str(home + '/.themes/thehours/configs/' + currentTheme)
 
 
 # The function that reads what picture we'll be using for the theme
-def currentBg():
-    """Read the newly written fehbg to get the file selected as bg."""
-#    with open(currentThemeBG + '/.fehbg', 'r') as fehbg:
-#        for line in fehbg.read().split():
-#            if home in line:
-#                bgLoc = line.replace("'", "")
-#                bgLoc = currentThemeBG + '/' + bgLoc
-    feh_header = [
-        '/usr/bin/env feh',
+def getBg():
+    """Make a random list of images from the current Hour."""
+    feh_bgcmd = [
+        '/usr/bin/env', 'feh',
         '--randomize',
-        ]
-    feh_opts = [
-        '-L', '%F',
-        ]
-    feh_pipe_head = [
-        '|', 'head',
-        '-n', '1',
-        ]
-    feh_bgcmd = []
-    feh_bgcmd.extend(feh_header)
-    feh_bgcmd.append(currentThemeBG)
-    feh_bgcmd.append(feh_opts)
-    feh_bgcmd.append(feh_pipe_head)
-    bgLoc = sp.run(feh_bgcmd)
-    return(bgLoc)
+        currentThemeBG,
+        '-L', '%f']
+    feh_list = sp.check_output(feh_bgcmd, )
+    feh_list = feh_list.decode(sys.stdout.encoding)
+    bgLoc = feh_list.split()
+    return bgLoc
 
 
 # Start reading the background image to get our output colors
+
+
 def colorList(img):
-    """Make a list of the rgb values of all the pixels"""
+    """Make a list of the rgb values of all the pixels."""
     width, height = img.size
     rgbcolors = []
     for x in range(width):
@@ -77,8 +67,12 @@ def rgbToHex(r, g, b):
 
 
 hexdict = {}
+
+
 def makeHexDict(rgbcolor):
-    """Read the image and populate the dictionary with hexvalues and their brightness."""
+    """Read the image and populate the dictionary with hexvalues
+    and their brightness.
+    """
     hexvalue = rgbToHex(rgbcolor[0], rgbcolor[1], rgbcolor[2])
     intvalue = int(rgbcolor[0] + rgbcolor[1] + rgbcolor[2])
     if hexvalue not in hexdict:
@@ -88,10 +82,10 @@ def makeHexDict(rgbcolor):
 
 
 def makeHexList(hexdict):
-    """Read through the hex dict, sort it by luminance, and give the colors for our scheme."""
+    """Read through the hex dict, sort it by luminance,
+    and give the colors for our scheme."""
     fullhexlist = sorted(hexdict, key=hexdict.get, reverse=False)
     nth = int(len(fullhexlist) / 16)
     hexlist = fullhexlist[0::nth]
     return hexlist
-
 # End grabbing all the colors that we need for our theme

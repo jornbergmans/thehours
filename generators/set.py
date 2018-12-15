@@ -4,13 +4,12 @@
 import re
 from generators import get
 
-# This means that our theme will be set to the current hour, like so
+# Set theme to the current hour
 currentTheme = get.bgHour()
-# bgLoc = get.currentBg()
 # End setting the theme
+
+
 # The feh function for setting the backgrond we will use for the rest.
-
-
 def fehBg(bgLoc):
     """Build up the string to execute feh."""
     feh_header = [
@@ -26,9 +25,8 @@ def fehBg(bgLoc):
     return(fehcmd)
 # End setting background images via feh
 
+
 # Function and info used for getting / setting conkyrc color values
-
-
 reghex = re.compile('#[a-z0-9]*')
 
 

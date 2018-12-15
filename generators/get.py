@@ -9,9 +9,8 @@ import sys
 now = int(datetime.datetime.now().strftime('%H'))
 home = os.path.expanduser('~')
 
+
 # Setting the first part - what time is it?
-
-
 def bgHour():
     """Return the name of the theme we are setting based on the current time."""
     if 0 <= now <= 6:
@@ -24,9 +23,8 @@ def bgHour():
         theHour = 'dusk'
     return theHour
 
+
 # This means that our theme will be set to the current hour, like so
-
-
 currentTheme = bgHour()
 currentThemeBG = str(home + '/.themes/thehours/backgrounds/' + currentTheme)
 currentThemeConf = str(home + '/.themes/thehours/configs/' + currentTheme)
@@ -48,8 +46,6 @@ def getBg():
 
 
 # Start reading the background image to get our output colors
-
-
 def colorList(img):
     """Make a list of the rgb values of all the pixels."""
     width, height = img.size
@@ -77,7 +73,6 @@ def makeHexDict(rgbcolor):
     intvalue = int(rgbcolor[0] + rgbcolor[1] + rgbcolor[2])
     if hexvalue not in hexdict:
         hexdict[hexvalue] = intvalue
-#    hexdict[hexvalue] += 1
     return hexdict
 
 

@@ -15,7 +15,7 @@ if __name__ == "__main__":
 #    rgbcolors = get.colorList(bgImg2)
 
     for bgImg in bgLoc:
-        bgOpened = Image.open(bgImg).conver('RGB')
+        bgOpened = Image.open(bgImg).convert('RGB')
         rgbcolors = get.colorlist(bgOpened)
 
     for rgbcolor in rgbcolors:

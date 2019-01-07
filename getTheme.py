@@ -9,11 +9,14 @@ from PIL import Image
 if __name__ == "__main__":
 
     bgLoc = get.getBg()
-    bgImg1 = Image.open(bgLoc[1]).convert('RGB')
-    bgImg2 = Image.open(bgLoc[2]).convert('RGB')
+#    bgImg1 = Image.open(bgLoc[1]).convert('RGB')
+#    bgImg2 = Image.open(bgLoc[2]).convert('RGB')
+#    rgbcolors = get.colorList(bgImg1)
+#    rgbcolors = get.colorList(bgImg2)
 
-    rgbcolors = get.colorList(bgImg1)
-    rgbcolors = get.colorList(bgImg2)
+    for bgImg in bgLoc:
+        bgOpened = Image.open(bgImg).conver('RGB')
+        rgbcolors = get.colorlist(bgOpened)
 
     for rgbcolor in rgbcolors:
         hexdict = get.makeHexDict(rgbcolor)

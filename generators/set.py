@@ -48,3 +48,22 @@ def conkyDefault(hexlist):
                                             conkyWindowColor, 1)
                     conkyrc_output.write(conkyNewWindow)
 # End setting the conky color values
+
+allHexValues = [000000,111111,222222,333333,444444,555555,6666666,777777,888888,999999,aaaaaa,bbbbbb,cccccc,dddddd,eeeeee,ffffff]
+    with open(get.home + '/.themes/thehours/config/gtk-2.0/gtkrc', 'r') as gtk_input:
+        with open(get.home + '/.themes/thehours/gtk-2.0/gtkrc', 'w') as gtk_output:
+            for line in gtk_input:
+                for hexValue in allHexValues:
+                    if hexValue in line:
+                        for index, value in enumerate(allHexValues):
+                           if value = hexValue
+                               gtkNewColor = re.sub(reghex, hexlist[15],
+                               hexValue, 1)
+                    conkyrc_output.write(conkyNewDefault)
+                else:
+                    conkyrc_output.write(line)
+                if 'own_window_colour' in line:
+                    conkyWindowColor = line
+                    conkyNewWindow = re.sub(reghex, hexlist[7],
+                                            conkyWindowColor, 1)
+                    conkyrc_output.write(conkyNewWindow)

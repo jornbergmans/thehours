@@ -8,19 +8,17 @@ from PIL import Image
 
 if __name__ == "__main__":
 
-    bgLoc = get.getBg()
-#    bgImg1 = Image.open(bgLoc[1]).convert('RGB')
-#    bgImg2 = Image.open(bgLoc[2]).convert('RGB')
-#    rgbcolors = get.colorList(bgImg1)
-#    rgbcolors = get.colorList(bgImg2)
+#    bgLoc = get.getBg()
+    bgLoc = ['/Users/jorn/Downloads/wallpapers/inputfiles/dusk/she_is_the_bad_one_by_kvacm-dbttlc1.jpg']
 
     for bgImg in bgLoc:
         bgOpened = Image.open(bgImg).convert('RGB')
-        rgbcolors = get.colorlist(bgOpened)
+        rgbcolors = get.colorList(bgOpened)
 
     for rgbcolor in rgbcolors:
         hexdict = get.makeHexDict(rgbcolor)
     hexlist = get.makeHexList(hexdict)
 
-    set.conkyDefault(hexlist)
-    setBg = sp.run(set.fehBg(bgLoc))
+    set.conkyColors(hexlist)
+#    setBg = sp.run(set.fehBg(bgLoc))
+    set.gtkColors(hexlist)

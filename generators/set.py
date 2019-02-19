@@ -30,10 +30,10 @@ def fehBg(bgLoc):
 reghex = re.compile('#[a-z0-9]*')
 
 
-def conkyDefault(hexlist):
+def conkyColors(hexlist):
     """Read the conky conf for this Hour and set the background color."""
-    with open(get.home + '/.themes/thehours/config/conky/datetime.conf', 'r') as conkyrc_input:
-        with open(get.home + '/.config/conky/datetime.conf', 'w') as conkyrc_output:
+    with open(get.home + '/.themes/thehours/config/default/conky/datetime.conf', 'r') as conkyrc_input:
+        with open(get.home + '/.themes/thehours/config/' + currentTheme + 'conky/datetime.conf', 'w') as conkyrc_output:
             for line in conkyrc_input:
                 if 'default_color' in line:
                     conkyDefaultColor = line
@@ -49,21 +49,20 @@ def conkyDefault(hexlist):
                     conkyrc_output.write(conkyNewWindow)
 # End setting the conky color values
 
-allHexValues = [000000,111111,222222,333333,444444,555555,6666666,777777,888888,999999,aaaaaa,bbbbbb,cccccc,dddddd,eeeeee,ffffff]
-    with open(get.home + '/.themes/thehours/config/gtk-2.0/gtkrc', 'r') as gtk_input:
-        with open(get.home + '/.themes/thehours/gtk-2.0/gtkrc', 'w') as gtk_output:
+def gtkColors(hexlist):
+    """Read the gtk base file, and write the new colors for this Hour to the right places."""
+    allHexValues = ['#000000', '#111111', '#222222', '#333333', '#444444', '#555555', '#666666', '#777777', '#888888', '#999999', '#aaaaaa', '#bbbbbb', '#cccccc', '#dddddd', '#eeeeee', '#ffffff']
+#    for hexValue in allHexValues:
+#            hexValueIndex = allHexValues.index(hexValue)
+#            print(hexValue, 'will be changed to', hexlist[hexValueIndex])
+    with open(get.home + '/.themes/thehours/config/default/gtk-2.0/gtkrc', 'r') as gtk_input:
+        with open(get.home + '/.themes/thehours/config/' + currentTheme + '/gtk-2.0/gtkrc', 'w') as gtk_output:
             for line in gtk_input:
-                for hexValue in allHexValues:
+                 for hexValue in allHexValues:
+                    hexValueIndex = allHexValues.index(hexValue)
                     if hexValue in line:
-                        for index, value in enumerate(allHexValues):
-                           if value = hexValue
-                               gtkNewColor = re.sub(reghex, hexlist[15],
-                               hexValue, 1)
-                    conkyrc_output.write(conkyNewDefault)
-                else:
-                    conkyrc_output.write(line)
-                if 'own_window_colour' in line:
-                    conkyWindowColor = line
-                    conkyNewWindow = re.sub(reghex, hexlist[7],
-                                            conkyWindowColor, 1)
-                    conkyrc_output.write(conkyNewWindow)
+                        gtkNewColor = line.replace(hexValue, hexlist[hexValueIndex])
+                        gtk_output.write(gtkNewColor)
+                    else:
+                        gtk_output.write(line)
+# End setting new gtk color theme

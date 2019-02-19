@@ -8,14 +8,10 @@ from generators import get
 from generators import set
 
 # Set the requested theme to work with
-if sys.argv[1] in ['dusk', 'day', 'dawn', 'dark']:
-    currentTheme = sys.argv[1]
-else:
-    currentTheme = get.bgHour()
-
+currentTheme = get.currentTheme
 currentThemePath = set.currentThemePath
-conkyThemePath = str(currentThemePath + '/conky/datetime.conf')
-gtkThemePath = str(currentThemePath + '/gtk-2.0/gtkrc')
+conkyThemePath = str(currentThemePath + 'conky/datetime.conf')
+gtkThemePath = str(currentThemePath + 'gtk-2.0/gtkrc')
 # End setting directories for working theme
 
 # Set locations for live files
@@ -28,6 +24,8 @@ print(conkyThemePath)
 print(gtkThemePath)
 print(conkyLivePath)
 print(gtkLivePath)
+
+setBg = sp.run(set.fehBg(bgLoc))
 
 set.conkyColors
 copyfile(conkyThemePath, conkyLivePath)

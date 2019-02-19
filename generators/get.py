@@ -24,11 +24,11 @@ def bgHour():
     return theHour
 
 
-# This means that our theme will be set to the current hour, like so
+# Use specified theme, or if not specified, our theme will be set to the current hour, like so
 if sys.argv[1] in ['dusk', 'day', 'dawn', 'dark']:
     currentTheme = sys.argv[1]
 else:
-    currentTheme = get.bgHour()
+    currentTheme = bgHour()
 currentThemeBG = str(home + '/.themes/thehours/backgrounds/' + currentTheme)
 currentThemeConf = str(home + '/.themes/thehours/configs/' + currentTheme)
 # End setting the theme

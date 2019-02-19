@@ -20,5 +20,4 @@ if __name__ == "__main__":
     hexlist = get.makeHexList(hexdict)
 
     set.conkyColors(hexlist)
-#    setBg = sp.run(set.fehBg(bgLoc))
     set.gtkColors(hexlist)

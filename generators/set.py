@@ -6,15 +6,12 @@ from generators import get
 import sys
 
 # Set theme to the current hour
-if sys.argv[1] in ['dusk', 'day', 'dawn', 'dark']:
-    currentTheme = sys.argv[1]
-else:
-    currentTheme = get.bgHour()
+currentTheme = get.currentTheme
 currentThemePath = str(get.home + '/.themes/thehours/config/' + currentTheme + '/')
 # End setting the theme
 
 
-# The feh function for setting the backgrond we will use for the rest.
+# The feh function for setting the background we will use
 def fehBg(bgLoc):
     """Build up the string to execute feh."""
     feh_header = [

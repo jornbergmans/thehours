@@ -3,9 +3,14 @@
 
 import re
 from generators import get
+import sys
 
 # Set theme to the current hour
-currentTheme = get.bgHour()
+if sys.argv[1] in ['dusk', 'day', 'dawn', 'dark']:
+    currentTheme = sys.argv[1]
+else:
+    currentTheme = get.bgHour()
+currentThemePath = str(get.home + '/.themes/thehours/config/' + currentTheme + '/')
 # End setting the theme
 
 
@@ -33,7 +38,7 @@ reghex = re.compile('#[a-z0-9]*')
 def conkyColors(hexlist):
     """Read the conky conf for this Hour and set the background color."""
     with open(get.home + '/.themes/thehours/config/default/conky/datetime.conf', 'r') as conkyrc_input:
-        with open(get.home + '/.themes/thehours/config/' + currentTheme + 'conky/datetime.conf', 'w') as conkyrc_output:
+        with open(currentThemePath + 'conky/datetime.conf', 'w') as conkyrc_output:
             for line in conkyrc_input:
                 if 'default_color' in line:
                     conkyDefaultColor = line
@@ -56,7 +61,7 @@ def gtkColors(hexlist):
 #            hexValueIndex = allHexValues.index(hexValue)
 #            print(hexValue, 'will be changed to', hexlist[hexValueIndex])
     with open(get.home + '/.themes/thehours/config/default/gtk-2.0/gtkrc', 'r') as gtk_input:
-        with open(get.home + '/.themes/thehours/config/' + currentTheme + '/gtk-2.0/gtkrc', 'w') as gtk_output:
+        with open(currentThemePath + 'gtk-2.0/gtkrc', 'w') as gtk_output:
             for line in gtk_input:
                  for hexValue in allHexValues:
                     hexValueIndex = allHexValues.index(hexValue)

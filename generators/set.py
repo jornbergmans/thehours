@@ -3,11 +3,10 @@
 
 import re
 from generators import get
-import sys
 
 # Set theme to the current hour
 currentTheme = get.currentTheme
-currentThemePath = str(get.home + '/.themes/thehours/config/' + currentTheme + '/')
+currentThemeConfigPath = str(get.home + '/.themes/thehours/config/' + currentTheme + '/')
 # End setting the theme
 
 
@@ -15,56 +14,63 @@ currentThemePath = str(get.home + '/.themes/thehours/config/' + currentTheme + '
 def fehBg(bgLoc):
     """Build up the string to execute feh."""
     feh_header = [
-        '/usr/bin/env', 'feh',
+        'feh',
         '--bg-scale',
         '--quiet', '--no-menus',
         '--no-fehbg',
         ]
     fehcmd = []
     fehcmd.extend(feh_header)
+    fehcmd.append(bgLoc[0])
     fehcmd.append(bgLoc[1])
-    fehcmd.append(bgLoc[2])
     return(fehcmd)
 # End setting background images via feh
 
 
 # Function and info used for getting / setting conkyrc color values
 reghex = re.compile('#[a-z0-9]*')
+allHexValues = ['#000000', '#111111', '#222222', '#333333',
+                '#444444', '#555555', '#666666', '#777777',
+                '#888888', '#999999', '#aaaaaa', '#bbbbbb',
+                '#cccccc', '#dddddd', '#eeeeee', '#ffffff']
 
 
 def conkyColors(hexlist):
     """Read the conky conf for this Hour and set the background color."""
     with open(get.home + '/.themes/thehours/config/default/conky/datetime.conf', 'r') as conkyrc_input:
-        with open(currentThemePath + 'conky/datetime.conf', 'w') as conkyrc_output:
+        with open(currentThemeConfigPath + 'conky/datetime.conf', 'w') as conkyrc_output:
             for line in conkyrc_input:
-                if 'default_color' in line:
-                    conkyDefaultColor = line
-                    conkyNewDefault = re.sub(reghex, hexlist[15],
-                                             conkyDefaultColor, 1)
-                    conkyrc_output.write(conkyNewDefault)
-                else:
-                    conkyrc_output.write(line)
-                if 'own_window_colour' in line:
-                    conkyWindowColor = line
-                    conkyNewWindow = re.sub(reghex, hexlist[7],
-                                            conkyWindowColor, 1)
-                    conkyrc_output.write(conkyNewWindow)
+                conkyNewColor = line
+                for hexValue in allHexValues:
+                    hexValueIndex = allHexValues.index(hexValue)
+                    if hexValue in line:
+                        conkyNewColor = conkyNewColor.replace(hexValue, hexlist[hexValueIndex])
+                conkyrc_output.write(conkyNewColor)
 # End setting the conky color values
+
 
 def gtkColors(hexlist):
     """Read the gtk base file, and write the new colors for this Hour to the right places."""
-    allHexValues = ['#000000', '#111111', '#222222', '#333333', '#444444', '#555555', '#666666', '#777777', '#888888', '#999999', '#aaaaaa', '#bbbbbb', '#cccccc', '#dddddd', '#eeeeee', '#ffffff']
-#    for hexValue in allHexValues:
-#            hexValueIndex = allHexValues.index(hexValue)
-#            print(hexValue, 'will be changed to', hexlist[hexValueIndex])
     with open(get.home + '/.themes/thehours/config/default/gtk-2.0/gtkrc', 'r') as gtk_input:
-        with open(currentThemePath + 'gtk-2.0/gtkrc', 'w') as gtk_output:
+        with open(currentThemeConfigPath + 'gtk-2.0/gtkrc', 'w') as gtk_output:
             for line in gtk_input:
-                 for hexValue in allHexValues:
+                gtkNewColor = line
+                for hexValue in allHexValues:
                     hexValueIndex = allHexValues.index(hexValue)
                     if hexValue in line:
-                        gtkNewColor = line.replace(hexValue, hexlist[hexValueIndex])
-                        gtk_output.write(gtkNewColor)
-                    else:
-                        gtk_output.write(line)
+                        gtkNewColor = gtkNewColor.replace(hexValue, hexlist[hexValueIndex])
+                gtk_output.write(gtkNewColor)
 # End setting new gtk color theme
+
+
+def obColors(hexlist):
+    """Read the gtk base file, and write the new colors for this Hour to the right places."""
+    with open(get.home + '/.themes/thehours/config/default/openbox-3/themerc', 'r') as ob_input:
+        with open(currentThemeConfigPath + 'openbox-3/themerc', 'w') as ob_output:
+            for line in ob_input:
+                obNewColor = line
+                for hexValue in allHexValues:
+                    hexValueIndex = allHexValues.index(hexValue)
+                    if hexValue in line:
+                        obNewColor = obNewColor.replace(hexValue, hexlist[hexValueIndex])
+                ob_output.write(obNewColor)

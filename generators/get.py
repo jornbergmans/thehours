@@ -24,12 +24,12 @@ def bgHour():
     return theHour
 
 
-# Use specified theme, or if not specified, our theme will be set to the current hour, like so
+# Use specified theme, or if not specified, our theme will be set to the current hour0
 if sys.argv[1] in ['dusk', 'day', 'dawn', 'dark']:
     currentTheme = sys.argv[1]
 else:
     currentTheme = bgHour()
-currentThemeBG = str(home + '/.themes/thehours/backgrounds/' + currentTheme)
+currentThemeBG = str(home + '/Pictures/Wallpapers/thehours/' + currentTheme)
 currentThemeConf = str(home + '/.themes/thehours/configs/' + currentTheme)
 # End setting the theme
 
@@ -44,18 +44,20 @@ def getBg():
         '-L', '%f']
     feh_list = sp.check_output(feh_bgcmd, )
     feh_list = feh_list.decode(sys.stdout.encoding)
-    bgLoc = feh_list.split()
+    bgLoc = []
+    bgLoc.append(feh_list.split()[0])
+    bgLoc.append(feh_list.split()[1])
     return bgLoc
 
 
 # Start reading the background image to get our output colors
-def colorList(img):
+def colorList(bgOpened):
     """Make a list of the rgb values of all the pixels."""
-    width, height = img.size
+    width, height = bgOpened.size
     rgbcolors = []
     for x in range(width):
         for y in range(height):
-            r, g, b = img.getpixel((x, y))
+            r, g, b = bgOpened.getpixel((x, y))
             rgbcolors.append([r, g, b])
     return rgbcolors
 
@@ -84,6 +86,8 @@ def makeHexList(hexdict):
     and give the colors for our scheme."""
     fullhexlist = sorted(hexdict, key=hexdict.get, reverse=False)
     nth = int(len(fullhexlist) / 16)
-    hexlist = fullhexlist[0::nth]
+    hexlist = fullhexlist[nth::nth]
+    print(len(fullhexlist))
+    print(nth)
     return hexlist
 # End grabbing all the colors that we need for our theme
